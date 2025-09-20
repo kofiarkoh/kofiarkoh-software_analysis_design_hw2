@@ -2,6 +2,7 @@
 
 namespace App\Models\Vendor;
 
+use App\Jobs\RecomputeSimilarProducts;
 use App\Models\OrderItem;
 use App\Models\School;
 use App\Models\Shop;
@@ -44,6 +45,13 @@ class Product extends Model
         self::STATUS_PUBLISHED  => 'Published',
         self::STATUS_SUSPENDED  => 'Suspended',
     ];
+
+    protected static function booted(): void
+    {
+        static::saved(function ($product) {
+            RecomputeSimilarProducts::dispatch($product->getKey())->afterCommit();
+        });
+    }
 
     public function toSearchableArray(): array
     {

@@ -67,18 +67,18 @@ class ProductResource extends Resource
 
                 ]),
 
-                Forms\Components\Grid::make(1)
-                ->schema([
-                    Select::make('categories')
-                        ->label('Categories')
-                        ->multiple()
-                        ->relationship('categories', 'name')
-                        ->preload()
-                        ->searchable()
-                        ->disabled(self::isFormFieldDisabled())
-                        ->required()
+                // Forms\Components\Grid::make(1)
+                // ->schema([
+                //     Select::make('categories')
+                //         ->label('Categories')
+                //         ->multiple()
+                //         ->relationship('categories', 'name')
+                //         ->preload()
+                //         ->searchable()
+                //         ->disabled(self::isFormFieldDisabled())
+                //         ->required()
 
-                ]),
+                // ]),
 
 
                 Forms\Components\Grid::make(1)
@@ -155,48 +155,6 @@ class ProductResource extends Resource
                             ->panelLayout('grid')
                             ->directory('products_images')
                     ]),
-
-                Forms\Components\Grid::make(1)
-                    ->schema([
-                        Repeater::make('variants')
-                            ->relationship()
-                            ->defaultItems(0)
-                            ->disabled(self::isFormFieldDisabled())
-                            //->dehydrated(true)
-                            ->schema([
-                                TextInput::make('sku')->required(),
-                                TextInput::make('price')->numeric()->required(),
-                                TextInput::make('stock')->numeric()->required(),
-                                TextInput::make('reserved_stock')->numeric()->disabled(),
-
-                                Forms\Components\Select::make('attributeValues')
-                                    ->multiple()
-                                    ->label('Attributes')
-                                    ->relationship('attributeValues', 'value') // this is optional when using options()
-                                    ->options(function ($record) {
-
-                                        if (Filament::getCurrentPanel()->getId() == 'vendor'){
-                                            $shop = Filament::getTenant();
-                                        }
-
-                                        else{
-                                            $shop = $record->product->shop;
-
-                                        }
-
-                                        return AttributeValue::with('attribute')
-                                            ->whereHas('attribute', fn ($query) => $query->where('shop_id', $shop->id))
-                                            ->get()
-                                            ->mapWithKeys(fn ($record) => [
-                                                $record->id => "{$record->attribute->name} - {$record->value}"
-                                            ])
-                                            ->toArray();
-                                    })
-                                    ->columnSpanFull()
-                                    ->searchable()
-                            ])->columns(2)->grid()
-                    ]),
-
 
             ]);
     }
