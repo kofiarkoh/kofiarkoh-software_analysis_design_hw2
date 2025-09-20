@@ -1,0 +1,95 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# FastAPI / Uvicorn / Gunicorn logs
+*.log
+*.pid
+*.db
+*.sqlite3
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+.junit/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Environment variables
+.env
+.env.*
+*.env
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# MyPy / Pylint / Bandit
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+pylint-report.txt
+bandit-report.json
+
+# Cache
+*.cache
+__pypackages__/
+*.coverage
+
+# Local database / SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# VS Code settings
+.vscode/
+
+# Mac OS / Linux system files
+.DS_Store
+Thumbs.db
+*.jsonl

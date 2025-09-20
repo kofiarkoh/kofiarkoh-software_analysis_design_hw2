@@ -1,0 +1,97 @@
+:root {
+    --bm-yellow: #fdd013;
+    --bm-blue: #000080;
+    --bm-blue-dark: #01015d;
+}
+
+.logo{
+
+    /*height: 240px;*/
+    margin-top: -5px;
+    /*background-color: #fdd013;*/
+    width: 160px;
+    object-fit: contain;
+    /*margin-left: -15px;*/
+}
+
+@media screen and (max-width: 700px) {
+    .logo{
+        width: 120px;
+    }
+}
+
+/* Corner ribbon (top-right) */
+.corner-ribbon{
+    position: fixed;         /* stick to viewport */
+    top: 0;                  /* flush with top */
+    right: 0;                /* flush with right */
+    width: 200px;
+    z-index: 9999;
+    transform: rotate(45deg) translate(35%, -35%); /* adjust so it crosses the corner */
+    transform-origin: top right;
+    text-align: center;
+    font: 600 13px/32px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: #fff;
+    background: #43a047;     /* green */
+    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+    pointer-events: none;
+}
+
+/* Optional: little “folds” on the ends */
+.corner-ribbon::before,
+.corner-ribbon::after{
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 0; height: 0;
+    border-top: 16px solid #2e7d32; /* darker green edge */
+    border-bottom: 16px solid transparent;
+}
+.corner-ribbon::before{ left: 0;  border-left: 16px solid transparent; }
+.corner-ribbon::after { right: 0; border-right:16px solid transparent; }
+
+.product-item, .product-item-div{
+    height: 320px;
+}
+
+.product-image{
+    height: 200px;
+    object-fit: contain;
+}
+
+.bg-\[\#000080\] {
+    --tw-bg-opacity: 1;
+    background-color: #000080;
+}
+
+.bg-\[\#0000801\] {
+    --tw-bg-opacity: 1;
+    background-color: rgba(0, 0, 128, 0.03);
+}
+
+.text-\[\#000080\] {
+   color: #000080;
+}
+
+.bg-\[\#fdd013\] {
+    --tw-bg-opacity: 1;
+    background-color: #fdd013;
+}
+
+.text-\[\#fdd013\] {
+   color: #fdd013;
+}
+
+.search-button:hover{
+    background-color: #e7bd10;
+    transition-duration: 0.5s;
+
+}
+
+.ellipsis {
+    display: block;
+    white-space: nowrap;      /* Prevent text from wrapping */
+    overflow: hidden;         /* Hide overflowing text */
+    text-overflow: ellipsis;  /* Show "..." when text overflows */
+
+}

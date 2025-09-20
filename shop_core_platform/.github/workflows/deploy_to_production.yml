@@ -1,0 +1,33 @@
+name: Push WorkFlow
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy-staging:
+    name: Deploy to Staging Server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Deployment
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/html/multi-vendor-shop
+            git checkout develop
+            git pull
+            composer install --no-dev --optimize-autoloader
+            php artisan migrate --force
+            php artisan optimize
+            php artisan icons:cache
+            php artisan cache:clear
+            php artisan route:clear
+            php artisan config:clear
