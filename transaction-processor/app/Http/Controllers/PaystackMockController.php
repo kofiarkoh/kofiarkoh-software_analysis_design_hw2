@@ -3,30 +3,27 @@
 // app/Http/Controllers/PaystackMockController.php
 namespace App\Http\Controllers;
 
+use App\Jobs\SendMockPaystackWebhook;
 use App\Models\PaymentTransaction;
 use App\Models\TransferRecipient;
 use App\Models\Transfer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class PaystackMockController extends Controller
 {
-    /**
-     * POST /transaction/initialize
-     * Expects: amount (minor units), email, currency (optional), callback_url (optional), reference
-     * Returns Paystack-like data payload.
-     */
+
     public function initializeTransaction(Request $request)
     {
         $validated = $request->validate([
-            'amount'       => ['required', 'integer', 'min:100'], // ≥ GHS 1.00 (100 pesewas)
+            'amount'       => ['required', 'integer', 'min:100'],
             'email'        => ['required', 'email'],
             'currency'     => ['nullable', 'string', 'max:10'],
             'callback_url' => ['nullable', 'url'],
             'reference'    => ['required', 'string'],
         ]);
 
-        // Create the mock authorization url & access code
         $accessCode = 'AC_' . Str::upper(Str::random(16));
         $authUrl = config('app.url') . '/mock/checkout/' . $accessCode;
 
@@ -40,6 +37,13 @@ class PaystackMockController extends Controller
             'authorization_url' => $authUrl,
         ]);
 
+        // Kick off async webhook simulation
+        SendMockPaystackWebhook::dispatch(
+            reference: $txn->reference,
+            amount: $txn->amount,
+            currency: $txn->currency
+        )->delay(now()->addSeconds(random_int(2, 6)));
+
         return response()->json([
             'status'  => true,
             'message' => 'Authorization URL created',
@@ -48,8 +52,9 @@ class PaystackMockController extends Controller
                 'access_code'       => $txn->access_code,
                 'reference'         => $txn->reference,
             ],
-        ]);
+        ], 201);
     }
+
 
     /**
      * POST /transferrecipient
@@ -66,6 +71,7 @@ class PaystackMockController extends Controller
             'currency'       => ['nullable', 'string', 'max:10'],
         ]);
 
+        Log::info('Creating transfer recipient', $validated);
         $recipientCode = 'RCP_' . Str::upper(Str::random(10));
 
         $recipient = TransferRecipient::create([

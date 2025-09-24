@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'paystack' => [
+    'webhook_url'    => env('PAYSTACK_WEBHOOK_URL'),
+    'webhook_secret' => env('PAYSTACK_WEBHOOK_SECRET'),
+],
+
+
 ];

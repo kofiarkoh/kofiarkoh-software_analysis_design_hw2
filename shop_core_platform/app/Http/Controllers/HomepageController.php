@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\HomepageBanner;
+
 use App\Models\Shop;
 use App\Models\Vendor\Category;
 use App\Models\Vendor\Product;
@@ -18,12 +18,13 @@ class HomepageController extends Controller
     {
         Shop::clearShopInformationFromSession();
 
-        $banners = HomepageBanner::getBanners();
+
 
         $products = Product::filteredPaginated(
             perPage: 5
         );
 
+        $banners = [];
         $categories = Category::take(9)->get();
 
         $sections = [
